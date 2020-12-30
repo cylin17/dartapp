@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:DartApp/DartApp.dart' as DartApp;
 
 import '../lib/DartApp.dart';
@@ -44,4 +46,24 @@ async {
   print('Before introduction');
   await introduction();
   print('After introduction');
+
+  print(greetBob(Person('Kathy')));
+  print(greetBob(Impostor()));
+
+  // -----
+  var ctrl = StreamController();
+  // var subscription = ctrl.stream.listen((data) => print('$data'));
+  // ctrl.sink.add('event');
+  // ctrl.sink.add(1234);
+  // ctrl.sink.add({'a': 'element A', 'b': 'element B'});
+  // ctrl.sink.add(123.45);
+
+  var subscription = ctrl.stream
+      .where((value) => (value % 2 == 0))
+      .listen((value) => print('$value'));
+  for(var i=1; i<11; i++){
+    ctrl.sink.add(i);
+  }
+
+  await ctrl.close();
 }
